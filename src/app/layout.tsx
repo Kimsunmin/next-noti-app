@@ -37,9 +37,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
+        <InstallPWA />
+        <InstallPWAiOS />
       </body>
-      <InstallPWA/>
-      <InstallPWAiOS/>
     </html>
   );
 }
