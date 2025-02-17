@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import InstallPWA from "@/components/InstallPWA";
+import InstallPWAiOS from "@/components/InstallPWAiOS";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,7 +16,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "simple-qrcode-utils",
-  description: "qrcode로 할 수 있는 모든것",
+  description: "QR코드 알림이",
   manifest: '/manifest.json',
   themeColor: "#ffffff", // PWA 테마 색상 설정
   other: {
@@ -36,6 +38,8 @@ export default function RootLayout({
       >
         {children}
       </body>
+      <InstallPWA/>
+      <InstallPWAiOS/>
     </html>
   );
 }

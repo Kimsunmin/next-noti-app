@@ -40,7 +40,7 @@
   "dir": "auto",
   "lang": "ko-KR",
   "name": "simple-qrcode-utils",
-  "short_name": "qrcode로 할 수 있는 모든것",
+  "short_name": "QR코드 알림이",
   "start_url": "/",
   "scope": "/"
 }
