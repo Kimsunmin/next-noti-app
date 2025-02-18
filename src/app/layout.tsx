@@ -15,10 +15,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "simple-qrcode-utils",
-  description: "QR코드 알림이",
+  title: "간단 알림",
+  description: "간단한 알림",
   manifest: '/manifest.json',
-  themeColor: "#ffffff", // PWA 테마 색상 설정
   other: {
     "apple-mobile-web-app-capable": "yes",
     "apple-mobile-web-app-status-bar-style": "default",
@@ -37,9 +36,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
+        <InstallPWA />
+        <InstallPWAiOS />
       </body>
-      <InstallPWA/>
-      <InstallPWAiOS/>
     </html>
   );
 }
