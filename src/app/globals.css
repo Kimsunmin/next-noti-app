@@ -3,19 +3,26 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --custom-color: #000000;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.text-custom {
+  color: var(--custom-color);
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+.bg-custom {
+  background-color: var(--custom-color);
+}
+
+.border-custom {
+  border-color: var(--custom-color);
+}
+
+.bg-custom\/10 {
+  background-color: color-mix(in srgb, var(--custom-color) 10%, transparent);
+}
+
+/* ! 사용 여부 확인 */
+.rounded-button {
+  border-radius: 0.75rem;
 }

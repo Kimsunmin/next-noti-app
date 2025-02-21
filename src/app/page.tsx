@@ -1,30 +1,33 @@
 'use client'
 
+import NotificationForm from "@/components/NotificationForm";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
   const router = useRouter();
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const navigateToCreateNotification = () => {
     router.push('/notification/create');
   };
 
+  const handleCreateNotification = () => {
+    router.push('/login');
+  }
+
   return (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="bg-gray-700 p-8 rounded-lg shadow-lg text-white w-full max-w-md">
-        <main className="flex flex-col gap-8 items-center sm:items-start">
-          <h1 className="text-2xl font-bold">알림 생성기</h1>
-          <p className="text-center sm:text-left">
-            이 웹 애플리케이션을 사용하면 쉽게 알림을 생성하고 예약할 수 있습니다.
-          </p>
-          <button
-            onClick={navigateToCreateNotification}
-            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
-          >
-            시작하기
-          </button>
-        </main>
-      </div>
-    </div>
+    <>
+      <section className="mb-8">
+        <h2 className="text-2xl font-bold mb-2">알림을 만들어 보세요, Foo님!</h2>
+        <p className="text-gray-600">아래에서 알림 설정을 해주세요</p>
+      </section>
+
+      <NotificationForm />
+
+      <button className="w-full h-12 bg-custom text-white font-medium rounded-xl !rounded-button flex items-center justify-center gap-2 mb-8" onClick={handleCreateNotification}>
+        <i className="fa-regular fa-plus"></i>
+        <span>새 알림 등록</span>
+      </button>
+    </>
   );
 }
