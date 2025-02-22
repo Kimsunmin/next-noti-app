@@ -6,6 +6,7 @@ import "./globals.css"
 import Link from 'next/link'
 import { usePathname } from "next/navigation"
 import { Settings, BadgeHelp, AlarmClock, House, User } from "lucide-react"
+import { Toaster } from "@/components/ui/sonner"
 
 const pacifico = Pacifico({ subsets: ["latin"], weight: ["400"] })
 
@@ -33,18 +34,17 @@ export function Footer() {
 
   const FooterComponent = () => {
     const pathname = usePathname()
-    const isLoginPage = pathname === "/login"
 
-    if (isLoginPage) return null
+    if (pathname === '/' || pathname === '/login') return null
 
     return (
       <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100">
         <div className="max-w-[375px] mx-auto grid grid-cols-4 h-16">
           <Link
-            href="/"
-            className={`flex flex-col items-center justify-center gap-1 ${pathname === "/" ? "text-custom " : "text-gray-400 "}`}
+            href="/home"
+            className={`flex flex-col items-center justify-center gap-1 ${pathname === "/home" ? "text-custom " : "text-gray-400 "}`}
           >
-            <House className={`fa-solid fa-house ${pathname === "/" ? "text-custom " : "text-gray-400 "}`} />
+            <House className={`fa-regular fa-house ${pathname === "/home" ? "text-custom " : "text-gray-400 "}`} />
             <span className="text-xs">홈</span>
           </Link>
           <Link
@@ -92,6 +92,7 @@ export default function ClientLayout({
         <div className="max-w-[375px] mx-auto min-h-screen relative pb-16">
           <Header />
           <main className="pt-20 px-4">{children}</main>
+          <Toaster />
           <Footer />
         </div>
       </body>

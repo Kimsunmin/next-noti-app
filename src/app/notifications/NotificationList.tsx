@@ -14,19 +14,35 @@ type Notification = {
 const initialNotifications: Notification[] = [
   {
     id: "1",
-    title: "마케팅 리포트 알림",
+    title: "세탁기",
     type: "일일 업데이트",
-    time: "09:00",
+    time: "37분",
     icon: "fa-regular fa-bell",
     enabled: true,
   },
   {
     id: "2",
-    title: "주간 성과 리포트",
-    type: "주간 요약",
-    time: "15:00",
+    title: "건조기",
+    type: "일일 업데이트",
+    time: "60분",
     icon: "fa-regular fa-chart-bar",
     enabled: true,
+  },
+  {
+    id: "3",
+    title: "햇반 1개",
+    type: "주간 요약",
+    time: "2분",
+    icon: "fa-regular fa-chart-bar",
+    enabled: true,
+  },
+  {
+    id: "4",
+    title: "세탁기 강력",
+    type: "주간 요약",
+    time: "50분",
+    icon: "fa-regular fa-chart-bar",
+    enabled: false,
   },
 ]
 
