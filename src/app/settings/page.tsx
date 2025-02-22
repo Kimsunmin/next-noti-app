@@ -1,24 +1,15 @@
 "use client"
 
-import { User, Bell, HelpCircle, FileText, Info, ChevronRight } from "lucide-react"
+import { Bell, HelpCircle, FileText, Info, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { PageHeader } from "@/components/ui/page-header"
 
 export default function SettingsPage() {
   return (
     <>
-      <section className="mb-6">
-        <h2 className="text-2xl font-bold mb-2">설정</h2>
-      </section>
+      <PageHeader title="설정" description="앱 설정을 관리하세요" />
 
       <div className="space-y-4">
-        <Button variant="outline" className="w-full justify-between">
-          <div className="flex items-center gap-3">
-            <User className="h-5 w-5 text-gray-600" />
-            <span className="font-medium">계정 정보</span>
-          </div>
-          <ChevronRight className="h-4 w-4 text-gray-400" />
-        </Button>
-
         <Button variant="outline" className="w-full justify-between">
           <div className="flex items-center gap-3">
             <Bell className="h-5 w-5 text-gray-600" />
@@ -51,10 +42,6 @@ export default function SettingsPage() {
           <span className="text-sm text-gray-400">v1.0.0</span>
         </div>
       </div>
-
-      <Button variant="ghost" className="w-full p-4 mt-8 text-red-500 font-medium">
-        로그아웃
-      </Button>
     </>
   )
 }
