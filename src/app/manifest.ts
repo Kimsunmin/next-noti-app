@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "간단 알림",
     short_name: "간단한 알림",
     description: "간단한 알림 설명",
-    start_url: "/home",
+    start_url: "/",
     scope: "/",
     lang: "ko-KR",
     display: "standalone",
