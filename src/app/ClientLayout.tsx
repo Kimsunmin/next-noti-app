@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { usePathname } from "next/navigation"
 import { Settings, BadgeHelp, AlarmClock, House, User } from "lucide-react"
 import { Toaster } from "@/components/ui/sonner"
+import PWAPrompt from "@/components/PWAPrompt"
 
 const pacifico = Pacifico({ subsets: ["latin"], weight: ["400"] })
 
@@ -94,6 +95,7 @@ export default function ClientLayout({
           <main className="pt-20 px-4">{children}</main>
           <Toaster />
           <Footer />
+          <PWAPrompt />
         </div>
       </body>
     </html>
