@@ -2,6 +2,8 @@
 
 import { PlusCircle } from "lucide-react";
 import { useState } from "react"
+import { NotificationSchema, NotificationTypes } from "@/types/notification"
+import { toast } from "sonner";
 
 interface NotificationFormProps {
   onSubmit: (title: string, type: string, delay: number) => void;
@@ -10,12 +12,10 @@ interface NotificationFormProps {
 export default function NotificationForm({ onSubmit }: NotificationFormProps) {
   const [notificationEnabled, setNotificationEnabled] = useState(true)
   const [title, setTitle] = useState("")
-  const [type, setType] = useState("한 번 알림")
+  const [type, setType] = useState<typeof NotificationTypes[number]>(NotificationTypes[0])
   const [delay, setDelay] = useState(5)
   const [customDelay, setCustomDelay] = useState(5)
   const [useCustomInput, setUseCustomInput] = useState(false)
-
-  const notificationTypes = ["한 번 알림", "균일한 알림", "마지막 쯤 알림", "세 번 알림"]
 
   const handleDelayChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDelay(Number(e.target.value))
@@ -31,6 +31,14 @@ export default function NotificationForm({ onSubmit }: NotificationFormProps) {
 
   const handleSubmit = () => {
     const finalDelay = useCustomInput ? customDelay : delay;
+    const notification = { id: "", title, type, time: finalDelay, enabled: notificationEnabled };
+
+    const result = NotificationSchema.safeParse(notification);
+    if (!result.success) {
+      toast.error("알림 생성 실패", { description: result.error.errors.map(e => e.message).join(", ") });
+      return;
+    }
+
     onSubmit(title, type, finalDelay);
   }
 
@@ -68,9 +76,9 @@ export default function NotificationForm({ onSubmit }: NotificationFormProps) {
           <select
             className="w-full h-12 px-4 bg-gray-50 rounded-xl border-none text-sm"
             value={type}
-            onChange={(e) => setType(e.target.value)}
+            onChange={(e) => setType(e.target.value as typeof NotificationTypes[number])}
           >
-            {notificationTypes.map((notificationType) => (
+            {NotificationTypes.map((notificationType) => (
               <option key={notificationType} value={notificationType}>
                 {notificationType}
               </option>
