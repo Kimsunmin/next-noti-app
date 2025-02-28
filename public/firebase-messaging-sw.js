@@ -20,6 +20,7 @@ firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage((payload) => {
+  console.log('[firebase-messaging-sw.js] Received background message ', payload)
   const {
     notification: { title, body },
     data: { reservation },
@@ -27,5 +28,12 @@ messaging.onBackgroundMessage((payload) => {
   const reservationId = parseInt(reservation)
   console.log(reservationId);
 
-  self.registration.showNotification(title, { body })
+  self.registration.showNotification(title, { body, icon: '/icons/icon.png' })
 })
+
+self.addEventListener('push', (event) => {
+  const {
+    notification: { title, body },
+  } = event.data.json();
+  self.registration.showNotification(title, { body, icon: '/icons/icon.png' })
+});
