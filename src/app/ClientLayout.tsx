@@ -9,6 +9,7 @@ import { Settings, BadgeHelp, AlarmClock, House, User } from "lucide-react"
 import { Toaster } from "@/components/ui/sonner"
 import PWAPrompt from "@/components/PWAPrompt"
 import NotificationManager from "@/components/NotificationManager"
+import { useEffect } from "react"
 
 const pacifico = Pacifico({ subsets: ["latin"], weight: ["400"] })
 
@@ -85,6 +86,19 @@ export default function ClientLayout({
 }: {
   children: React.ReactNode
 }) {
+  useEffect(() => {
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker
+        .register("/firebase-messaging-sw.js")
+        .then((registration) => {
+          console.log("Service Worker registered with scope:", registration.scope);
+        })
+        .catch((error) => {
+          console.error("Service Worker registration failed:", error);
+        });
+    }
+  }, []);
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
