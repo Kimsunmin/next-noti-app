@@ -47,7 +47,12 @@ export default function NotificationForm({ onSubmit }: NotificationFormProps) {
 
     // FCM 발송
     try {
-      const fcmToken = await getFCMToken();
+      let fcmToken = localStorage.getItem("fcmToken");
+      if (!fcmToken) {
+        fcmToken = await getFCMToken();
+        localStorage.setItem("fcmToken", fcmToken);
+      }
+
       const message = {
         to: fcmToken,
         notification: {
@@ -68,7 +73,8 @@ export default function NotificationForm({ onSubmit }: NotificationFormProps) {
         toast.success("FCM 발송 성공");
       } else {
         const errorData = await response.json();
-        toast.error("FCM 발송 실패", { description: errorData.error });
+        console.log(errorData);
+        toast.error("FCM 발송 실패", { description: 'errorData.error' });
       }
     } catch (error) {
       toast.error("FCM 발송 실패", { description: (error as Error).message });
