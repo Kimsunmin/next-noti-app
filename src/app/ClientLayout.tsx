@@ -8,6 +8,7 @@ import { usePathname } from "next/navigation"
 import { Settings, BadgeHelp, AlarmClock, House, User } from "lucide-react"
 import { Toaster } from "@/components/ui/sonner"
 import PWAPrompt from "@/components/PWAPrompt"
+import NotificationManager from "@/components/NotificationManager"
 
 const pacifico = Pacifico({ subsets: ["latin"], weight: ["400"] })
 
@@ -96,6 +97,7 @@ export default function ClientLayout({
           <Toaster />
           <Footer />
           <PWAPrompt />
+          <NotificationManager />
         </div>
       </body>
     </html>

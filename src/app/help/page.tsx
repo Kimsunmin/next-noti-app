@@ -14,6 +14,7 @@ export default function HelpPage() {
     { id: "3", question: "알림이 오지 않아요", description: "알림이 오지 않을 때 확인해야 할 사항을 안내합니다." },
     { id: "4", question: "앱 사용에 문제가 있어요", description: "앱 사용 중 발생하는 문제 해결 방법을 안내합니다." },
     { id: "5", question: "더 필요한 기능이 있어요!", description: "메일을 통해 전달 주시면 빠른 시간내로 확인 하겠습니다." },
+    { id: "6", question: "팀장이 속 터지게 해요", description: "'캠핑용 손도끼' 상품을 추천 드려요!" },
   ]
 
   return (
