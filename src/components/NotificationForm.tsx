@@ -6,7 +6,7 @@ import { NotificationSchema, NotificationTypes, NotificationType } from "@/types
 import { toast } from "sonner";
 import { addNotification } from "@/utils/indexedDB";
 import { v4 as uuidv4 } from 'uuid';
-import { sendFCM, getFCMToken } from "@/utils/fcm";
+import { getFCMToken } from "@/utils/clientFcm"; // FCM 토큰 유틸리티 함수 임포트
 
 interface NotificationFormProps {
   onSubmit: (title: string, type: string, delay: number) => void;
@@ -56,8 +56,20 @@ export default function NotificationForm({ onSubmit }: NotificationFormProps) {
         },
       };
 
-      await sendFCM(message);
-      toast.success("FCM 발송 성공");
+      const response = await fetch('/api/sendNotification', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(message),
+      });
+
+      if (response.ok) {
+        toast.success("FCM 발송 성공");
+      } else {
+        const errorData = await response.json();
+        toast.error("FCM 발송 실패", { description: errorData.error });
+      }
     } catch (error) {
       toast.error("FCM 발송 실패", { description: (error as Error).message });
     }
