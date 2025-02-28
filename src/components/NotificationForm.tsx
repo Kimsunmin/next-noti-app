@@ -2,8 +2,11 @@
 
 import { PlusCircle } from "lucide-react";
 import { useState } from "react"
-import { NotificationSchema, NotificationTypes } from "@/types/notification"
+import { NotificationSchema, NotificationTypes, NotificationType } from "@/types/notification"
 import { toast } from "sonner";
+import { addNotification } from "@/utils/indexedDB";
+import { v4 as uuidv4 } from 'uuid';
+import { sendFCM, getFCMToken } from "@/utils/fcm";
 
 interface NotificationFormProps {
   onSubmit: (title: string, type: string, delay: number) => void;
@@ -12,7 +15,7 @@ interface NotificationFormProps {
 export default function NotificationForm({ onSubmit }: NotificationFormProps) {
   const [notificationEnabled, setNotificationEnabled] = useState(true)
   const [title, setTitle] = useState("")
-  const [type, setType] = useState<typeof NotificationTypes[number]>(NotificationTypes[0])
+  const [type, setType] = useState<NotificationType>(NotificationTypes.ONCE)
   const [delay, setDelay] = useState(5)
   const [customDelay, setCustomDelay] = useState(5)
   const [useCustomInput, setUseCustomInput] = useState(false)
@@ -29,9 +32,9 @@ export default function NotificationForm({ onSubmit }: NotificationFormProps) {
     setUseCustomInput(!useCustomInput)
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const finalDelay = useCustomInput ? customDelay : delay;
-    const notification = { id: "", title, type, time: finalDelay, enabled: notificationEnabled };
+    const notification = { id: uuidv4(), title, type, time: finalDelay, enabled: notificationEnabled };
 
     const result = NotificationSchema.safeParse(notification);
     if (!result.success) {
@@ -39,7 +42,25 @@ export default function NotificationForm({ onSubmit }: NotificationFormProps) {
       return;
     }
 
+    await addNotification(notification);
     onSubmit(title, type, finalDelay);
+
+    // FCM 발송
+    try {
+      const fcmToken = await getFCMToken();
+      const message = {
+        to: fcmToken,
+        notification: {
+          title: "새 알림",
+          body: `알림 제목: ${title}, 알림 유형: ${type}, 알림 시간: ${finalDelay}분 후`,
+        },
+      };
+
+      await sendFCM(message);
+      toast.success("FCM 발송 성공");
+    } catch (error) {
+      toast.error("FCM 발송 실패", { description: (error as Error).message });
+    }
   }
 
   return (
@@ -76,9 +97,9 @@ export default function NotificationForm({ onSubmit }: NotificationFormProps) {
           <select
             className="w-full h-12 px-4 bg-gray-50 rounded-xl border-none text-sm"
             value={type}
-            onChange={(e) => setType(e.target.value as typeof NotificationTypes[number])}
+            onChange={(e) => setType(e.target.value as NotificationType)}
           >
-            {NotificationTypes.map((notificationType) => (
+            {Object.values(NotificationTypes).map((notificationType) => (
               <option key={notificationType} value={notificationType}>
                 {notificationType}
               </option>

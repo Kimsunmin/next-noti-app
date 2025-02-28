@@ -17,7 +17,9 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 
 export default function NotificationManager() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [token, setToken] = useState<string | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -61,8 +63,7 @@ export default function NotificationManager() {
 
   return (
     <div>
-      {error && <p>Error: {error}</p>}
-      {token && <p>Token: {token}</p>}
+
     </div>
   );
 }

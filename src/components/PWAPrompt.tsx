@@ -20,7 +20,9 @@ export default function PWAPrompt() {
     const handleBeforeInstallPrompt = (e: Event) => {
       e.preventDefault();
       setDeferredPrompt(e as BeforeInstallPromptEvent);
-      setIsVisible(true);
+      if (localStorage.getItem('pwaPromptDismissed') !== 'true') {
+        setIsVisible(true);
+      }
     };
 
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
@@ -47,6 +49,17 @@ export default function PWAPrompt() {
     }
   };
 
+  const handleLaterClick = () => {
+    setIsVisible(false);
+    localStorage.setItem('pwaPromptDismissed', 'true');
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem('pwaPromptDismissed') === 'true') {
+      setIsVisible(false);
+    }
+  }, []);
+
   if (!isVisible) return null;
 
   return (
@@ -67,7 +80,7 @@ export default function PWAPrompt() {
         </button>
         <button
           className="mt-2 text-gray-500 underline text-sm"
-          onClick={() => setIsVisible(false)}
+          onClick={handleLaterClick}
         >
           나중에 하기
         </button>
