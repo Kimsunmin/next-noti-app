@@ -35,6 +35,6 @@ export default function RootLayout({
     <>
       <ClientLayout>{children}</ClientLayout>
     </>
-  )
+  );
 }
 
