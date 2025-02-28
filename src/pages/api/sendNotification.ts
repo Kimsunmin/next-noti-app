@@ -16,7 +16,7 @@ export default async function handler(
 ) {
   if (req.method === "POST") {
     const { to, notification, data }: FCMMessage = req.body;
-
+    console.log(req.body);
     try {
       const { title, body } = notification;
       const response = await messaging.send({

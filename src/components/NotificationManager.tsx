@@ -19,6 +19,7 @@ const firebaseApp = initializeApp(firebaseConfig);
 export default function NotificationManager() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [token, setToken] = useState<string | null>(null);
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [error, setError] = useState<string | null>(null);
 
@@ -29,6 +30,7 @@ export default function NotificationManager() {
         const currentToken = await getToken(messaging, { vapidKey: process.env.NEXT_PUBLIC_VAPID_KEY });
         if (currentToken) {
           setToken(currentToken);
+          localStorage.setItem("fcmToken", currentToken);
         } else {
           setError('No registration token available. Request permission to generate one.');
         }
@@ -63,7 +65,7 @@ export default function NotificationManager() {
 
   return (
     <div>
-
+      {/* 알림 권한 및 토큰 상태를 표시할 수 있습니다 */}
     </div>
   );
 }
