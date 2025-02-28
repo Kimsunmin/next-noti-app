@@ -3,7 +3,7 @@ import "./globals.css";
 import ClientLayout from "@/app/ClientLayout";
 
 export const metadata: Metadata = {
-  title: "Notification",
+  title: "NotiAt",
   description: "Notification",
   manifest: '/manifest.json',
   appleWebApp: {
@@ -23,7 +23,6 @@ export const metadata: Metadata = {
       }
     ]
   }
-
 };
 
 export default function RootLayout({
