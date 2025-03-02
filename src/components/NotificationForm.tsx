@@ -6,7 +6,7 @@ import { NotificationSchema, NotificationTypes, NotificationType } from "@/types
 import { toast } from "sonner";
 import { addNotification } from "@/utils/indexedDB";
 import { v4 as uuidv4 } from 'uuid';
-import { getFCMToken } from "@/utils/clientFcm"; // FCM 토큰 유틸리티 함수 임포트
+import { getClientFCMToken } from "@/utils/clientFcm"; // FCM 토큰 유틸리티 함수 임포트
 
 interface NotificationFormProps {
   onSubmit: (title: string, type: string, delay: number) => void;
@@ -45,11 +45,11 @@ export default function NotificationForm({ onSubmit }: NotificationFormProps) {
     await addNotification(notification);
     onSubmit(title, type, finalDelay);
 
-    // FCM 발송
+    // FCM 발송 예약
     try {
       let fcmToken = localStorage.getItem("fcmToken");
       if (!fcmToken) {
-        fcmToken = await getFCMToken();
+        fcmToken = await getClientFCMToken();
         localStorage.setItem("fcmToken", fcmToken);
       }
 
@@ -59,9 +59,10 @@ export default function NotificationForm({ onSubmit }: NotificationFormProps) {
           title: "새 알림",
           body: `알림 제목: ${title}, 알림 유형: ${type}, 알림 시간: ${finalDelay}분 후`,
         },
+        delay: finalDelay * 60 * 1000, // 서버에서 처리할 수 있도록 delay를 함께 보냅니다.
       };
 
-      const response = await fetch('/api/sendNotification', {
+      const response = await fetch('/api/scheduleNotification', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -70,14 +71,14 @@ export default function NotificationForm({ onSubmit }: NotificationFormProps) {
       });
 
       if (response.ok) {
-        toast.success("FCM 발송 성공");
+        toast.success("FCM 발송 예약 성공");
       } else {
         const errorData = await response.json();
         console.log(errorData);
-        toast.error("FCM 발송 실패", { description: 'errorData.error' });
+        toast.error("FCM 발송 예약 실패", { description: 'errorData.error' });
       }
     } catch (error) {
-      toast.error("FCM 발송 실패", { description: (error as Error).message });
+      toast.error("FCM 발송 예약 실패", { description: (error as Error).message });
     }
   }
 

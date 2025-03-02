@@ -1,20 +1,9 @@
 'use client'
 
 import React, { useEffect, useState } from 'react';
-import { initializeApp } from "firebase/app";
-import { getMessaging, getToken, isSupported } from "firebase/messaging";
+import { isSupported } from "firebase/messaging";
+import { getClientFCMToken } from '../utils/clientFcm';
 
-const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
-};
-
-const firebaseApp = initializeApp(firebaseConfig);
 
 export default function NotificationManager() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -26,8 +15,7 @@ export default function NotificationManager() {
   useEffect(() => {
     const fetchToken = async () => {
       try {
-        const messaging = getMessaging(firebaseApp);
-        const currentToken = await getToken(messaging, { vapidKey: process.env.NEXT_PUBLIC_VAPID_KEY });
+        const currentToken = await getClientFCMToken();
         if (currentToken) {
           setToken(currentToken);
           localStorage.setItem("fcmToken", currentToken);

@@ -13,7 +13,7 @@ const firebaseConfig = {
 
 const firebaseApp = initializeApp(firebaseConfig);
 
-export async function getFCMToken(): Promise<string> {
+export async function getClientFCMToken(): Promise<string> {
   const tokenKey = "fcmToken";
   let fcmToken = localStorage.getItem(tokenKey);
 
